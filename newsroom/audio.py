@@ -171,6 +171,12 @@ def _generate_segment(
     The text is passed directly to ElevenLabs including any [tags] -
     v3 interprets these natively for emotion, delivery, and non-verbal sounds.
     """
+    # ElevenLabs v3 does not yet support previous/next_text context
+    if model_id == "eleven_v3":
+        previous_text = None
+        next_text = None
+        previous_request_ids = None
+
     with client.text_to_speech.with_raw_response.convert(
         text=text,
         voice_id=voice_id,
