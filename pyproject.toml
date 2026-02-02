@@ -1,0 +1,23 @@
+[project]
+name = "newsroom"
+version = "0.1.0"
+description = "AI Newsroom: Generate professional podcasts, debates, and news briefings from any topic"
+requires-python = ">=3.11"
+dependencies = [
+    "typer>=0.16.0",
+    "elevenlabs>=1.0.0",
+    "httpx>=0.28.0",
+    "openai>=1.0.0",
+    "pyyaml>=6.0",
+    "pydantic>=2.0",
+]
+
+[project.scripts]
+newsroom = "newsroom.cli:app"
+
+[build-system]
+requires = ["setuptools>=75.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
