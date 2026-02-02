@@ -135,7 +135,6 @@ async def generate_script(
             {"role": "system", "content": system},
             {"role": "user", "content": user_prompt},
         ],
-        temperature=0.7,
     )
 
     raw_script = resp.choices[0].message.content or ""
