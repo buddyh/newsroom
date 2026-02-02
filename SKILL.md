@@ -25,15 +25,22 @@ You (Claude) generate the script, then newsroom renders the audio. This is the p
 
 ### Script Format
 
-One line per speaker turn. Tags are interpreted directly by ElevenLabs v3:
+One line per speaker turn. Tags are interpreted directly by ElevenLabs v3.
+
+**IMPORTANT: No TV-isms.** This is audio only. Never write:
+- "Thanks for watching" / "you're watching X" / "tune in next time"
+- "Good evening, I'm X" or any self-introductions with show names
+- Sign-offs, visual references, or any television conventions
+
+Jump straight into the content.
 
 ```
-ANCHOR: [serious] Good evening. Tonight's top story covers the latest in quantum computing.
-ANCHOR: Researchers at MIT have achieved [excited] a major breakthrough in error correction.
+ANCHOR: [serious] Tonight's top story: quantum computing just hit a major milestone.
+ANCHOR: Researchers at MIT have achieved [excited] a breakthrough in error correction.
 ```
 
 ```
-HOST: [excited] Welcome to the show! Today we're talking about AI agents.
+HOST: [excited] Alright, AI agents. Let's get into it.
 CO-HOST: [laughing] Oh no, not again! [sigh] Just kidding, this is actually fascinating.
 HOST: [thoughtful] So the big question is... can they actually replace us?
 CO-HOST: [whisper] I hope not.
@@ -64,6 +71,9 @@ newsroom generate "Topic" --script script.txt --format podcast
 # Standalone flow: auto-research + auto-script via OpenAI (requires OPENAI_API_KEY)
 newsroom generate "Topic" --format podcast
 newsroom generate "Topic" --format debate --length long
+newsroom generate "Topic" --freshness pd                 # Only past day results
+newsroom generate "Topic" --freshness pw                 # Only past week results
+newsroom generate "Topic" --freshness 2026-01-30to2026-02-02  # Custom date range
 newsroom generate "Topic" --dry-run                      # Script only, no audio
 newsroom generate "Topic" --skip-research                # Skip Brave Search
 
@@ -78,6 +88,22 @@ newsroom config                                          # Show/init config file
 - "Make a podcast about AI agents vs humans"
 - "Generate a short debate on remote work"
 - "Write a long narrative about the history of Rome"
+- "Last 48 hours in AI news" (use `--freshness pd` or a custom date range)
+- "This week's tech news" (use `--freshness pw`)
+
+### Freshness Filter (Brave Search)
+
+When the user asks for recent news within a specific timeframe, use `--freshness`:
+
+| Value | Meaning |
+|-------|---------|
+| `pd` | Past day (24 hours) |
+| `pw` | Past week |
+| `pm` | Past month |
+| `py` | Past year |
+| `YYYY-MM-DDtoYYYY-MM-DD` | Custom date range |
+
+Map user intent to the right filter: "last 48 hours" -> `pd`, "this week" -> `pw`, etc.
 
 ## Formats
 

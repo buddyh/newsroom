@@ -34,6 +34,7 @@ def generate(
     script: Annotated[Optional[Path], typer.Option("--script", "-s", help="Pre-written script file to render")] = None,
     model: Annotated[Optional[str], typer.Option("--model", help="OpenAI model override (for auto-gen only)")] = None,
     output: Annotated[Optional[Path], typer.Option("--output", "-o", help="Custom output directory")] = None,
+    freshness: Annotated[Optional[str], typer.Option("--freshness", help="Brave Search recency: pd (day), pw (week), pm (month), py (year), or YYYY-MM-DDtoYYYY-MM-DD")] = None,
     skip_research: Annotated[bool, typer.Option("--skip-research", help="Skip Brave Search research")] = False,
     dry_run: Annotated[bool, typer.Option("--dry-run", help="Generate script only, no audio")] = False,
 ) -> None:
@@ -60,6 +61,7 @@ def generate(
         run_dir=run_dir,
         script_path=script,
         openai_model=model or config.openai_model,
+        freshness=freshness,
         skip_research=skip_research,
         dry_run=dry_run,
     ))
@@ -73,6 +75,7 @@ async def _run_pipeline(
     run_dir: Path,
     script_path: Path | None,
     openai_model: str,
+    freshness: str | None,
     skip_research: bool,
     dry_run: bool,
 ) -> None:
@@ -96,7 +99,7 @@ async def _run_pipeline(
             research_md = f"Topic: {topic}\nNo research gathered."
         else:
             typer.echo("[1/3] Researching...")
-            summary_path = await gather_research(topic, run_dir)
+            summary_path = await gather_research(topic, run_dir, freshness=freshness)
             research_md = summary_path.read_text()
 
         typer.echo("[2/3] Generating script...")

@@ -9,16 +9,27 @@ import httpx
 BRAVE_SEARCH_URL = "https://api.search.brave.com/res/v1/web/search"
 
 
-async def search_brave(topic: str, count: int = 10) -> list[dict]:
-    """Fetch web search results from Brave Search API."""
+async def search_brave(
+    topic: str, count: int = 10, freshness: str | None = None,
+) -> list[dict]:
+    """Fetch web search results from Brave Search API.
+
+    Args:
+        freshness: Filter by recency. Predefined: pd (past day), pw (past week),
+            pm (past month), py (past year). Custom: YYYY-MM-DDtoYYYY-MM-DD.
+    """
     api_key = os.environ.get("BRAVE_API_KEY")
     if not api_key:
         return []
 
+    params: dict[str, str | int] = {"q": f"{topic} news", "count": count}
+    if freshness:
+        params["freshness"] = freshness
+
     async with httpx.AsyncClient(timeout=15) as client:
         resp = await client.get(
             BRAVE_SEARCH_URL,
-            params={"q": f"{topic} news", "count": count},
+            params=params,
             headers={
                 "X-Subscription-Token": api_key,
                 "Accept": "application/json",
@@ -55,14 +66,16 @@ def results_to_markdown(topic: str, results: list[dict]) -> str:
     return "\n".join(lines)
 
 
-async def gather_research(topic: str, run_dir: Path) -> Path:
+async def gather_research(
+    topic: str, run_dir: Path, freshness: str | None = None,
+) -> Path:
     """Run research and save markdown summary. Returns path to summary."""
     research_dir = run_dir / "research"
     research_dir.mkdir(parents=True, exist_ok=True)
     summary_path = research_dir / "summary.md"
 
     try:
-        results = await search_brave(topic)
+        results = await search_brave(topic, freshness=freshness)
     except (httpx.HTTPError, Exception) as exc:
         print(f"  Research failed ({exc}), continuing without.")
         results = []

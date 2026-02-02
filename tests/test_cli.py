@@ -68,7 +68,7 @@ class TestGenerateCommand:
             ],
         )
 
-        async def mock_gather(topic, run_dir):
+        async def mock_gather(topic, run_dir, freshness=None):
             summary = run_dir / "research" / "summary.md"
             summary.parent.mkdir(parents=True, exist_ok=True)
             summary.write_text("# Research")

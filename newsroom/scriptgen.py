@@ -12,11 +12,19 @@ from newsroom.config import SPEAKER_ALIASES
 # Format-specific system prompts.
 # Emotion/delivery tags are kept in the text because ElevenLabs v3 interprets
 # them natively as audio tags: [laughing], [whisper], [excited], [sigh], etc.
+_NO_TV = (
+    "This is AUDIO ONLY, not television. Never use TV-isms like "
+    "'thanks for watching', 'you're watching X', 'tune in next time', "
+    "'good evening I'm X', or any visual references. "
+    "Jump straight into the content. No show names, no sign-offs, no self-introductions."
+)
+
 SYSTEM_PROMPTS: dict[Format, str] = {
     Format.NEWS: (
         "You are a professional news anchor scriptwriter. "
         "Write a broadcast script for a single ANCHOR. "
         "Be professional, concise, and informative. "
+        f"{_NO_TV} "
         "Use ElevenLabs v3 audio tags inline to control delivery: "
         "[serious], [excited], [whisper], [sigh], [thoughtful], etc. "
         "Format each line as: ANCHOR: [tag] text... with tags woven into the dialogue naturally."
@@ -25,6 +33,7 @@ SYSTEM_PROMPTS: dict[Format, str] = {
         "You are a professional podcast producer. "
         "Write a script for two hosts: HOST and CO-HOST. "
         "Include natural banter, interruptions, and diverse intonation. "
+        f"{_NO_TV} "
         "Use ElevenLabs v3 audio tags inline to control delivery: "
         "[laughing], [surprised], [excited], [whisper], [sigh], [thoughtful], etc. "
         "Tags can appear anywhere in the text, not just at the start. "
@@ -34,6 +43,7 @@ SYSTEM_PROMPTS: dict[Format, str] = {
         "You are a debate show producer. "
         "Write a script for MODERATOR and two debaters SIDE-A and SIDE-B. "
         "Arguments should be sharp but civil with clear opposing viewpoints. "
+        f"{_NO_TV} "
         "Use ElevenLabs v3 audio tags inline to control delivery: "
         "[angry], [sarcastic], [thoughtful], [excited], [annoyed], [surprised], etc. "
         "Tags can appear anywhere in the text. "
@@ -43,6 +53,7 @@ SYSTEM_PROMPTS: dict[Format, str] = {
         "You are a documentary scriptwriter. "
         "Write a script for a single NARRATOR. "
         "The style is cinematic and gripping, building tension and atmosphere. "
+        f"{_NO_TV} "
         "Use ElevenLabs v3 audio tags inline to control delivery: "
         "[whisper], [excited], [sad], [sigh], [long pause], [dramatic], etc. "
         "Tags can appear anywhere in the text for natural pacing. "
