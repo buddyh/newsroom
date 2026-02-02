@@ -2,7 +2,7 @@
 
 Turn any topic into a professional audio broadcast. Generates news briefings, podcasts, debates, and narratives using ElevenLabs v3 with native audio tag support for expressive voice control.
 
-Built as a [Clawd](https://github.com/steipete/clawd) skill for the ElevenLabs + Clawdbot hackathon.
+Built as an [OpenClaw](https://github.com/steipete/openclaw) skill.
 
 ## Quick Start
 
