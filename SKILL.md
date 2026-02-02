@@ -139,7 +139,7 @@ voices:
   narrator: nPczCjz82KWdKScP46A1    # Domi
 model: eleven_v3
 output_format: mp3_44100_128
-openai_model: gpt-4o
+openai_model: gpt-5-mini
 ```
 
 ## Under the Hood

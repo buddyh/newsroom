@@ -21,7 +21,7 @@ class TestDefaults:
     def test_default_config(self):
         cfg = NewsroomConfig()
         assert cfg.model == "eleven_v3"
-        assert cfg.openai_model == "gpt-4o"
+        assert cfg.openai_model == "gpt-5-mini"
         assert cfg.output_format == "mp3_44100_128"
 
     def test_default_voices(self):

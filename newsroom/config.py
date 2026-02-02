@@ -25,7 +25,7 @@ class NewsroomConfig(BaseModel):
     voices: VoiceConfig = Field(default_factory=VoiceConfig)
     model: str = "eleven_v3"
     output_format: str = "mp3_44100_128"
-    openai_model: str = "gpt-4o"
+    openai_model: str = "gpt-5-mini"
     data_dir: Path = DATA_DIR
 
 

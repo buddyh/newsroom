@@ -115,7 +115,7 @@ async def generate_script(
     length: Length,
     research_md: str,
     run_dir: Path,
-    model: str = "gpt-4o",
+    model: str = "gpt-5-mini",
 ) -> Script:
     """Generate a script via OpenAI and parse it."""
     system = SYSTEM_PROMPTS[fmt] + f"\n\n{length.word_guidance}"

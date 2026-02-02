@@ -85,7 +85,7 @@ class TestGenerateCommand:
             patch("newsroom.scriptgen.generate_script", side_effect=mock_gen_script),
         ):
             mock_cfg.return_value.data_dir = tmp_path
-            mock_cfg.return_value.openai_model = "gpt-4o"
+            mock_cfg.return_value.openai_model = "gpt-5-mini"
             result = runner.invoke(app, [
                 "generate", "Test Topic",
                 "--format", "news",
